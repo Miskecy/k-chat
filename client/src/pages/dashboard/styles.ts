@@ -15,6 +15,7 @@ export const Container = styled.div`
 	display: grid;
 	grid-template-areas: 'status status' 'sidebar chat';
 	grid-template-columns: clamp(30rem, 20%, 50rem) auto;
+	grid-template-rows: 4rem auto;
 
 	height: 100vh;
 
