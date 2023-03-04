@@ -33,6 +33,7 @@ export const Container = styled.div`
 		font-weight: 300;
 
 		animation: ${fade} 0.6s;
+		z-index: 999;
 	}
 `;
 

@@ -18,7 +18,7 @@ export const ConversationsList = styled.ul`
 	list-style: none;
 	width: 100%;
 
-	p {
+	> p {
 		text-align: center;
 		font-size: 1.6rem;
 		color: #999;

@@ -1,7 +1,8 @@
-import dotenv from 'dotenv';
+import { config } from 'dotenv';
 import io from 'socket.io';
+import prisma from './services/prisma';
 
-dotenv.config();
+config();
 
 const socket = new io.Server(5000, {
 	cors: {
@@ -23,8 +24,15 @@ socket.on('connection', (socket) => {
 	console.log(`User ${id} connected!`)
 
 	socket.on('sendMessage', ({ recipients, text }: any) => {
+		if (!recipients || !text) {
+			console.log('Invalid data');
+			return;
+		}
+
+
 		//console.log(`User ${id} sent a message to ${recipients}!`)
 		recipients.forEach((recipient: any) => {
+
 			const newRecipients = recipients.filter((r: any) => r !== recipient);
 
 			newRecipients.push(id);
