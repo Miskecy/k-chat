@@ -14,7 +14,7 @@ const Conversations: React.FC = () => {
     return (
         <s.Container>
             <s.ConversationsList>
-                {conversations.length != 0 ? (
+                {conversations && conversations?.length != 0 ? (
                     conversations.map((conversation, index) => (
                         <s.ConversationItem
                             key={index}

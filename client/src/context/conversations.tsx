@@ -168,23 +168,6 @@ const ConversationsProvider: React.FC<Props> = ({ children }) => {
                 }
             );
 
-            // reduce messages by sender to get consecutive messages into one object
-            // const groupedMessages = messages.reduce(
-            //     (acc: any, message: any) => {
-            //         const lastMessage = acc[acc.length - 1];
-
-            //         if (lastMessage && lastMessage.sender === message.sender) {
-            //             lastMessage.text += `
-            // 			${message.text}`;
-            //             lastMessage.datetime = message.datetime;
-            //             return acc;
-            //         } else {
-            //             return [...acc, message];
-            //         }
-            //     },
-            //     []
-            // );
-
             const groupedMessages = messages.reduce(
                 (acc: any, message: any) => {
                     const lastMessage = acc[acc.length - 1];
@@ -200,14 +183,10 @@ const ConversationsProvider: React.FC<Props> = ({ children }) => {
                 []
             );
 
-            //console.log(groupedMessages);
-
             // get last message of conversations by index
             const lastMessage = messages[messages.length - 1]?.text || '';
 
             const selected = index === selectedConversationIndex;
-
-            console.log(index, selectedConversationIndex);
 
             return {
                 ...conversation,

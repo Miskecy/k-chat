@@ -1,13 +1,38 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+const fade = keyframes`
+	from {
+		opacity: 0;
+		transform: translateY(-50%);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+`;
 
 export const Container = styled.div`
 	display: grid;
-	grid-template-areas: 'sidebar chat';
+	grid-template-areas: 'status status' 'sidebar chat';
 	grid-template-columns: clamp(30rem, 20%, 50rem) auto;
 
 	height: 100vh;
 
 	overflow: hidden;
+
+	.status {
+		grid-area: status;
+		background-color: #F4605C;
+		height: 4rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #fff;
+		font-size: 1.4rem;
+		font-weight: 300;
+
+		animation: ${fade} 0.6s;
+	}
 `;
 
 export const EmptyChat = styled.div`

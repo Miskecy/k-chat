@@ -10,6 +10,7 @@ import Chat2 from '../chat2';
 //? Hooks
 import { useConversations } from '../../hooks/useConversations';
 import { useContacts } from '../../hooks/useContacts';
+import { useSocket } from '../../hooks/useSocket';
 
 //? Styles
 import * as s from './styles';
@@ -24,6 +25,7 @@ type DashboardProps = {
 };
 
 const Dashboard: React.FC<DashboardProps> = ({ id }) => {
+    const { isServerOnline } = useSocket();
     const { selectedConversation } = useConversations();
     const { contacts } = useContacts();
     const [openModal, setOpenModal] = React.useState<{
@@ -40,6 +42,8 @@ const Dashboard: React.FC<DashboardProps> = ({ id }) => {
 
     return (
         <s.Container>
+            {!isServerOnline && <div className="status">Server is offline</div>}
+
             <Sidebar id={id} />
             {selectedConversation ? (
                 <Chat2 />

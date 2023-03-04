@@ -8,6 +8,7 @@ import { useAuth } from '../hooks/useAuth';
 //? Types
 export interface SocketContextData {
     socket?: Socket;
+    isServerOnline: boolean;
 }
 
 type Props = {
@@ -21,25 +22,44 @@ const SocketContext = React.createContext<SocketContextData>(
 const SocketProvider: React.FC<Props> = ({ children }) => {
     const { id } = useAuth();
     const [socket, setSocket] = React.useState<Socket>();
+    const [isServerOnline, setIsServerOnline] = React.useState<boolean>(false);
 
     React.useEffect(() => {
         if (!id) return;
 
-        const newSocket = io('http://localhost:5000', {
+        const socket = io('http://localhost:5000', {
             query: { id },
         });
 
-        setSocket(newSocket);
+        setSocket(socket);
 
         return () => {
-            newSocket.close();
+            socket?.disconnect();
         };
     }, [id]);
+
+    React.useEffect(() => {
+        if (!socket) return;
+
+        socket.on('connect', () => {
+            setIsServerOnline(true);
+        });
+
+        socket.on('disconnect', () => {
+            setIsServerOnline(false);
+        });
+
+        return () => {
+            socket.off('connect');
+            socket.off('disconnect');
+        };
+    }, [socket]);
 
     return (
         <SocketContext.Provider
             value={{
                 socket,
+                isServerOnline,
             }}
         >
             {children}
