@@ -11,15 +11,31 @@ datasource db {
 }
 
 model Account {
-    id String @id @map("_id")
+    id      String    @id @map("_id")
+    Contact Contact[]
 
     @@map("accounts")
 }
 
-model Messages {
-    sender   String @id @map("_id")
-    text     String
-    datetime String
+model Message {
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    text      String
+    datetime  String
+    sender    String
+    receivers String[]
+    Contact   Contact? @relation(fields: [contactId], references: [id])
+    contactId String?  @db.ObjectId
 
     @@map("messages")
+}
+
+model Contact {
+    id        String    @id @default(auto()) @map("_id") @db.ObjectId
+    name      String
+    ownerId   String
+    messages  Message[]
+    account   Account   @relation(fields: [accountId], references: [id])
+    accountId String
+
+    @@map("contacts")
 }
